@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="../view/chose.css">
+</head>
+<body>
+  <nav class="navbar navbar-light bg-faded">
+  <a class="navbar-brand" href="#">Journal</a>
+  <ul class="nav navbar-nav">
+    <button class="btn btn-outline-primary pull-md-right" type="submit">Login</button>
+  </nav>
+  <h1 class="display-4">Renseigner vos centres d'interêts</h1>
+  <h3 class="lead">Ces informations permettent de vous proposer une actu personalisée</h3>
+
+  <div class="jumbotron">
+    <div class="container">
+      <h2 class="display-6">Centres d'interêts: </h2>
+    <div class="row">
+      <?php
+      if(isset($categories)){
+        foreach($categories as $key => $value){
+          echo '<div class="col-lg-4">
+                <div class="card"/>
+                <img class="card-img-top" src="../view/'.$value->img.'" alt="Card image cap">
+                <div class="card-block">
+                  <h4 class="card-title">'.$value->name.'</h4>
+                  <!-- <p class="card-text">'.$value->description.'</p> -->
+                </div>
+                </div>
+                </div>';
+        }
+      }
+      ?>
+    </div>
+    <button type="submit" class="btn btn-success">Confirmer</button>
+    </div>
+  </div>
+</body>
+</html>

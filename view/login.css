@@ -1,0 +1,19 @@
+body{
+  width: 100%;
+  heigth: 100%;
+  background-image: url("fond.jpeg");
+  background: contain;
+}
+
+.jumbotron{
+  width: 400px;
+  margin: 100px auto;
+  background-color: transparent;
+}
+
+h1{
+  color: white;
+}
+.etat{
+  color: white;
+}

@@ -1,0 +1,31 @@
+body{
+  width: 100%;
+  heigth: 100%;
+  background-image: url("fond.jpeg");
+  background: contain;
+  text-align: center;
+}
+
+.jumbotron{
+  width: 800px;
+  margin: 50px auto;
+  text-align: center;
+  padding: 10px 10px;
+}
+.row{
+ height: 440px;
+ overflow: scroll;
+}
+.container{
+}
+.card{
+  height: 200px;
+}
+.card-img-top{
+  width: 200px;
+}
+
+h1{
+  margin: 10px auto;
+  color: white;
+}

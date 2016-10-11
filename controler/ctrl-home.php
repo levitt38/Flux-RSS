@@ -12,10 +12,10 @@ include_once('../model/DAO.class.php');
 
 
 $bd = array(
-  array("Mode","Actu de la mode","mode.jpeg"),
-  array("Finances","Actu des finances","finance.jpeg"),
-  array("Sciences","Actu des sciences","science.jpeg"),
-  array("Gaming","Actu du gaming","gaming.jpeg")
+  new Categorie("Mode","Actu de la mode","mode.jpeg"),
+  new Categorie("Finances","Actu des finances","finance.jpeg"),
+  new Categorie("Sciences","Actu des sciences","science.jpeg"),
+  new Categorie("Gaming","Actu du gaming","gaming.jpeg")
 );
 $rsss = [];
 foreach($categories as $cat){
@@ -24,9 +24,11 @@ foreach($categories as $cat){
 		$rsss[] = $r;
 }
 
+$nouvelles = [];
 foreach($rsss as $rss){
-	$dao->readNouvellesFromRSS($rss);
-
+	$n = $dao->readNouvellesFromRSS($rss);
+	foreach($n as $nouv)
+		$nouvelles[] = $nouv;
 }
 
 

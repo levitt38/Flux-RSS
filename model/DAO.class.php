@@ -94,7 +94,7 @@ require_once('../model/RSS.class.php');
 			return true;
 	}
 
-	function readNouvellesFromRSS(RSS a){
+	function readNouvellesFromRSS(RSS $a){
 		$req = "select * from nouvelle where RSS_id = :id";
 		$sth = $this->db->prepare($req);
 		$sth->execute(array($RSS->id));

@@ -1,0 +1,28 @@
+body{
+  width: 100%;
+  heigth: 100%;
+  background-image: url("fond.jpeg");
+  background: contain;
+  text-align: center;
+  position: fixed;
+}
+nav{
+  margin-bottom: 10px;
+}
+h2{
+  color: black;
+  text-align: left;
+  margin-left: 5%;
+}
+
+.jumbotron{
+  width: 95%;
+  margin-left: calc((100% - 95%)/2);
+  margin-top: 20px;
+  background-color: white;
+  padding-top: 20px;
+}
+
+button{
+  margin: 0px 10px;
+}

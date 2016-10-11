@@ -1,0 +1,30 @@
+body{
+  width: 100%;
+  heigth: 100%;
+  background-image: url("fond.jpeg");
+  background: contain;
+  text-align: center;
+  position: fixed;
+}
+nav{
+  margin-bottom: 10px;
+}
+h1,h3{
+  color: white;
+  text-align: left;
+  margin-left: 5%;
+}
+h3{
+  color: black;
+}
+
+.jumbotron{
+  width: 90%;
+  margin-left: calc((100% - 90%)/2);
+  margin-top: 20px;
+  background-color: white;
+}
+
+button{
+  margin: 0px 10px;
+}

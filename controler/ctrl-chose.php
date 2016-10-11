@@ -3,8 +3,8 @@ require_once("../model/Categorie.class.php");
 
 $bd = array(
   array("Mode","Actu de la mode","mode.jpeg"),
-  array("Finance","Actu de la finance","finance.jpeg"),
-  array("Science","Actu de la science","science.jpeg"),
+  array("Finances","Actu des finances","finance.jpeg"),
+  array("Sciences","Actu des sciences","science.jpeg"),
   array("Gaming","Actu du gaming","gaming.jpeg")
 );
 

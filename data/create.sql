@@ -16,7 +16,8 @@
       );
 
       CREATE TABLE utilisateur (
-      login varchar(80) primary key,
+      id integer primary key autoincrement,
+      login varchar(80),
       mp varchar(8)
       );
 
@@ -39,3 +40,10 @@
       RSS_id integer REFERENCES RSS(id),
       primary key (utilisateur_login,RSS_id)
       );
+
+      CREATE TABLE interets (
+      userID varchar(80) REFERENCES utilisateur(id),
+      categorieID varchar(30) REFERENCES categorie(name),
+      primary key (userID,categorieID)
+      );
+

@@ -123,6 +123,43 @@ require_once('../model/RSS.class.php');
 		return $rsss;
 	}
 
+	// GESTION DE LA BASE UTILISATEUR
+	function getUserByLogin($login){
+		$req = "select * from utilisateur where login = :login";
+		$query = $this->db->prepare($req);
+		$query->execute(array($login));
+		if($query==false){
+			return false;
+		}
+		$result = $query->fetchAll();
+		return $result;
+	}
+
+	function insertNewUser($login,$pwd){
+		$req = "insert INTO utilisateur(login,mp) values (:login,:pwd)";
+		$query = $this->db->prepare($req);
+		$query->execute(array($login,$pwd));
+		if ($n < 1){
+			return false;
+		}else
+			return true;
+	}
+
+	function insertPreferencesUser($tab,$login){
+		$comte = 0;
+		foreach($tab as $key => $value){
+			$req = "insert INTO interets(userID,categorieID) values (:userid,:catid)";
+			$query = $this->db->prepare($req);
+			$query->execute(array($login,$value));
+			$comte++;
+		}
+			if ($n < count($tab)){
+				return false;
+			}else
+				return true;
+		}
+	}
+
 
       }
 $dao = new DAO();

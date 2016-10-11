@@ -92,14 +92,24 @@ require_once('../model/RSS.class.php');
 			return false;
 		else
 			return true;
-        }
+	}
+
+	function readNouvellesFromRSS(RSS a){
+		$req = "select * from nouvelle where RSS_id = :id";
+		$sth = $this->db->prepare($req);
+		$sth->execute(array($RSS->id));
+		if($sth == false)
+			return false;
+		return $sth->fetchAll(PDO::FETCH_CLASS,'Nouvelle');
+
+	}
 
         // Met à jour le champ image de la nouvelle dans la base
         function updateImageNouvelle(Nouvelle $n) {
 		// Met à jour uniquement le titre et la date
 	}
 
-	function fluxFromCategorie(Categorie $c){
+	function RSSFromCategorie(Categorie $c){
 		$req = "select r.url from RSS r, fluxcategorie f  where f.categorie = :categorie AND f.RSS_id = r.id";
 		$sth = $this->db->prepare($req);
 		$sth->execute(array($c->name));

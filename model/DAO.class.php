@@ -39,6 +39,7 @@ require_once('../model/RSS.class.php');
           }
         }
 
+
         // Acces à un objet RSS à partir de son URL
         function readRSSfromURL($url) {
 		$req = "select * from RSS where url = :url";

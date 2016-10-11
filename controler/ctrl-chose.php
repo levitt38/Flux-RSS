@@ -1,5 +1,5 @@
 <?php
-require_once("../model/categories.php");
+require_once("../model/Categorie.class.php");
 
 $bd = array(
   array("Mode","Actu de la mode","mode.jpeg"),

@@ -70,10 +70,9 @@ require_once('../model/RSS.class.php');
 		$a = $this->db->prepare("select * from RSS where url = '".$rss->url()."'");
 		$a->execute();
 		$id = $a->fetchAll()[0]['id'];
-
 		foreach($rss->nouvelles() as $nou)
 			$this->createNouvelle($nou,$id);
-			$this->updateNouvelle($nou);
+			$this->updateNouvelle($nou,$id);
 
         }
 
@@ -96,7 +95,6 @@ require_once('../model/RSS.class.php');
         function createNouvelle(Nouvelle $n, $RSS_id) {
 		$req = "INSERT INTO nouvelle (date,titre,description,url,image,RSS_id) values (:date,:titre,:description,:url,:image,:RSS_id)";
 		$sth = $this->db->prepare($req);
-		var_dump($n);
 		$n = $sth->execute(array($n->date(),$n->titre(),$n->description(),$n->url(),$n->image(),$RSS_id));
 		if ($n != 1)
 			return false;
@@ -105,25 +103,30 @@ require_once('../model/RSS.class.php');
 	}
 
 	function readNouvellesFromRSS(RSS $rss){
-		$a = $this->db->prepare("select * from RSS where url = '".$rss->url()."'");
-		$a->execute();
-		$id = $a->fetchAll()[0]['id'];
 		$req = "select * from nouvelle where RSS_id = :id";
 		$sth = $this->db->prepare($req);
-		$sth->execute(array($id));
+		$sth->execute(array($this->getIDFromRSS($rss)));
 		if($sth == false)
 			return false;
 		return $sth->fetchAll(PDO::FETCH_CLASS,'Nouvelle');
 
 	}
 
+	function getIDfromRSS(RSS $rss){
+
+		$a = $this->db->prepare("select * from RSS where url = '".$rss->url()."'");
+		$a->execute();
+		return $a->fetchAll()[0]['id'];
+
+
+	}
 
         // Met à jour la nouvelle dans la base
-        function updateNouvelle(Nouvelle $n) {
-		$q = "UPDATE nouvelle SET titre=:titre, date=:date, description=:description WHERE url=:url";
+        function updateNouvelle(Nouvelle $n, $RSS_id) {
+		$q = "UPDATE nouvelle SET titre=:titre, date=:date, description=:description WHERE RSS_id=:id";
 		$s = $this->db->prepare($q);
           try {
-            $r = $s->execute(array($n->titre(),$n->date(),$n->description(),$n->url()));
+            $r = $s->execute(array($n->titre(),$n->date(),$n->description(),$RSS_id));
             if ($r == 0) {
               die("updateRSS error: no nouvelle updated\n");
             }

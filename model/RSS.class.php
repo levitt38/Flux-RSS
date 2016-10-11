@@ -47,7 +47,6 @@ class RSS {
 		// Recupère tous les items du flux RSS
 
 		$this->nouvelles = [];
-
 		foreach ($doc->getElementsByTagName('item') as $node) {
 			$nouvelle = new Nouvelle();
 
@@ -59,7 +58,6 @@ class RSS {
 			$nomLocalImage ++;
 			$this->nouvelles[] = $nouvelle;
 		}
-
 
 	}
 }

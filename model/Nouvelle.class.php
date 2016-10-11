@@ -35,7 +35,7 @@ class Nouvelle{
 
         $nodeList = $item->getElementsByTagName('pubDate');
         $this->date  = $nodeList->item(0)->textContent;
-
+	$this->description = $item->getElementsByTagName('description')->item(0)->textContent;
 	}
 
 	function downloadImage(DOMElement $item, $imageId) {

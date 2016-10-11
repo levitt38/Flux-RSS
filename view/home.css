@@ -2,11 +2,14 @@ body{
   width: 100%;
   heigth: 100%;
   background-image: url("fond.jpeg");
+  background-size:cover;
   background: contain;
   text-align: center;
-  position: fixed;
+  background : url("fond.jpeg") no-repeat no-repeat fixed;
 }
 nav{
+  position:relative;
+  top:0px;
   margin-bottom: 10px;
 }
 h1,h3{

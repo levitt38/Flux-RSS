@@ -23,7 +23,6 @@ foreach($rsss as $rss){
 	foreach($n as $nouv)
 		$nouvelles[] = $nouv;
 }
-
 $cards = [];
 foreach($nouvelles as $n){
 	$a = [];

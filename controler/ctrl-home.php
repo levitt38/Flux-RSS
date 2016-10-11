@@ -1,5 +1,6 @@
 <?php
 include_once('../model/DAO.class.php');
+include_once('../model/Categorie.class.php');
 
 
 
@@ -10,8 +11,7 @@ include_once('../model/DAO.class.php');
 
 
 
-
-$bd = array(
+$categories = array(
   new Categorie("Mode","Actu de la mode","mode.jpeg"),
   new Categorie("Finances","Actu des finances","finance.jpeg"),
   new Categorie("Sciences","Actu des sciences","science.jpeg"),
@@ -19,7 +19,7 @@ $bd = array(
 );
 $rsss = [];
 foreach($categories as $cat){
-	$rss = $dao->RSSFromCategorie;
+	$rss = $dao->RSSFromCategorie($cat);
 	foreach($rss as $r)
 		$rsss[] = $r;
 }
@@ -42,7 +42,12 @@ foreach($nouvelles as $n){
 
 
 }
-
+	$a = [];
+	$a['titre'] = "First Nouvelle";
+	$a['description'] = "Meilleure nouvelle in the world";
+	$a['imagepath'] = 'https://yt3.ggpht.com/-kTMRiuX2Jxo/AAAAAAAAAAI/AAAAAAAAAAA/hPUprMNmzb4/s88-c-k-no-mo-rj-c0xffffff/photo.jpg';
+	$cards[] = $a;
+	$cards[] = $a;
 
 
 

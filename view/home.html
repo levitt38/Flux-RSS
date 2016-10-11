@@ -20,12 +20,15 @@
   <div class="jumbotron">
 	  <?php foreach($cards as $c){?>
 	  <div class="card">
-		  <img class="card-img-top" src="<?php echo $c['imagepath']?>" alt="Card image cap">
-		  <div class="card-block">
+		    <div class="row">
+			    <div class="col-sm-2">
+				    <img class="card-img-top" src="<?php echo $c['imagepath']?>" alt="Card image cap">
+			    </div>
+			    <div class="col-sm-4">
 			  <h4 class="card-title"><?php echo $c['titre']?></h4>
 			  <p class="card-text"><?php echo $c['description']?></p>
-			  <a href="#" class="btn btn-primary">Go somewhere</a>
-		  </div>
+			    </div>
+		    </div>
 	  </div>
 	  <?php }?>
   </div>

@@ -104,9 +104,19 @@ require_once('../model/RSS.class.php');
 
 	}
 
-        // Met à jour le champ image de la nouvelle dans la base
-        function updateImageNouvelle(Nouvelle $n) {
-		// Met à jour uniquement le titre et la date
+
+        // Met à jour la nouvelle dans la base
+        function updateNouvelle(Nouvelle $n) {
+		$q = "UPDATE nouvelle SET titre=:titre, date=:date, description=:description WHERE url=:url";
+		$s = $this->db->prepare($q);
+          try {
+            $r = $s->exec(array($n->titre,$n->date,$n->description,$n->url));
+            if ($r == 0) {
+              die("updateRSS error: no nouvelle updated\n");
+            }
+          } catch (PDOException $e) {
+            die("PDO Error :".$e->getMessage());
+          }
 	}
 
 	function RSSFromCategorie(Categorie $c){

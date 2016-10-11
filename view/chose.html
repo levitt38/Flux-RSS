@@ -10,7 +10,7 @@
   <ul class="nav navbar-nav">
     <button class="btn btn-outline-primary pull-md-right" type="submit">Login</button>
   </nav>
-  <h1 class="display-4">Renseigner vos centres d'interêts</h1>
+  <h1 class="display-4">Renseignez vos centres d'interêts</h1>
   <h3 class="lead">Ces informations permettent de vous proposer une actu personalisée</h3>
 
   <div class="jumbotron">
@@ -20,14 +20,22 @@
       <?php
       if(isset($categories)){
         foreach($categories as $key => $value){
-          echo '<div class="col-lg-4">
-                <div class="card"/>
-                <img class="card-img-top" src="../view/'.$value->img.'" alt="Card image cap">
+          $nom = ($choix[$value->name]==1) ? $value->name."bis" : $value->name;
+          $etat = ($choix[$value->name]==1) ? "=0" : "=1";
+          echo '<div class="col-lg-4">';
+          echo '<a href="http://www-etu-info.iut2.upmf-grenoble.fr/~nourik/m3104/tp1/RSS/controler/ctrl-chose.php?'.$nom.$etat.createURL($choix).'"><div class="card"';
+          if($choix[$value->name] == 1){
+              echo ' style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)"';
+          }
+          echo '><img class="card-img-top" src="../view/'.$value->img.'" alt="Card image cap">
                 <div class="card-block">
-                  <h4 class="card-title">'.$value->name.'</h4>
-                  <!-- <p class="card-text">'.$value->description.'</p> -->
-                </div>
-                </div>
+                  <h4 class="card-title">'.$value->name;
+          if($choix[$value->name] == 1){
+              echo '<span style="float: right; color: green" class="entypo-check card-title"> </span>';
+          }
+          echo '</h4>';
+          echo '</div>
+                </div></a>
                 </div>';
         }
       }

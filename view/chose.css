@@ -1,3 +1,9 @@
+@import url(http://weloveiconfonts.com/api/?family=entypo);
+/* entypo */
+[class*="entypo-"]:before {
+  font-family: 'entypo', sans-serif;
+}
+
 body{
   width: 100%;
   heigth: 100%;
@@ -5,21 +11,28 @@ body{
   background: contain;
   text-align: center;
 }
+a,a:visited,a:hover{
+  text-decoration: inherit;
+  color: black;
+}
 
 .jumbotron{
   width: 800px;
-  margin: 50px auto;
+  margin: 30px auto;
   text-align: center;
   padding: 10px 10px;
 }
 .row{
- height: 440px;
+ height: 450px;
  overflow: scroll;
 }
-.container{
-}
+
 .card{
   height: 200px;
+  padding-top: 12px;
+}
+.card-block{
+  padding-top: 15px;
 }
 .card-img-top{
   width: 200px;

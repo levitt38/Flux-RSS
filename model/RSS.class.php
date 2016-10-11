@@ -42,7 +42,7 @@ class RSS {
 
 	        // Met à jour le titre dans l'objet
 		$this->titre = $nodeList->item(0)->textContent;
-
+		$this->date = time();
 		$nomLocalImage=1;
 		// Recupère tous les items du flux RSS
 

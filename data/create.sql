@@ -2,7 +2,7 @@
       id integer primary key autoincrement,
       titre varchar(255),
       url varchar(255),
-      date timestamp
+      date integer 
       );
 
       CREATE TABLE nouvelle (

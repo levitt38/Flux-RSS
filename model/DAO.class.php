@@ -55,17 +55,26 @@ require_once('../model/RSS.class.php');
 
         // Met à jour un flux
         function updateRSS(RSS $rss) {
-          // Met à jour uniquement le titre et la date
-          $titre = $this->db->quote($rss->titre());
-          $q = "UPDATE RSS SET titre=$titre, date='".$rss->date()."' WHERE url='".$rss->url()."'";
+          // Met tout à jour
+		$titre = ($this->db->quote($rss->titre()));
+		$q = "UPDATE RSS SET titre=:titre, date=:date WHERE url=:url";
+		$s = $this->db->prepare($q);
           try {
-            $r = $this->db->exec($q);
+		  $r = $s->execute(array($rss->titre(),$rss->date(),$rss->url()));
             if ($r == 0) {
               die("updateRSS error: no rss updated\n");
             }
           } catch (PDOException $e) {
             die("PDO Error :".$e->getMessage());
-          }
+	  }
+		$a = $this->db->prepare("select * from RSS where url = '".$rss->url()."'");
+		$a->execute();
+		$id = $a->fetchAll()[0]['id'];
+
+		foreach($rss->nouvelles() as $nou)
+			$this->createNouvelle($nou,$id);
+			$this->updateNouvelle($nou);
+
         }
 
         //////////////////////////////////////////////////////////
@@ -87,17 +96,21 @@ require_once('../model/RSS.class.php');
         function createNouvelle(Nouvelle $n, $RSS_id) {
 		$req = "INSERT INTO nouvelle (date,titre,description,url,image,RSS_id) values (:date,:titre,:description,:url,:image,:RSS_id)";
 		$sth = $this->db->prepare($req);
-		$n = $sth->execute(array($n->date,$n->titre,$n->description,$n->url,$n->image,$RSS_id));
+		var_dump($n);
+		$n = $sth->execute(array($n->date(),$n->titre(),$n->description(),$n->url(),$n->image(),$RSS_id));
 		if ($n != 1)
 			return false;
 		else
 			return true;
 	}
 
-	function readNouvellesFromRSS(RSS $a){
+	function readNouvellesFromRSS(RSS $rss){
+		$a = $this->db->prepare("select * from RSS where url = '".$rss->url()."'");
+		$a->execute();
+		$id = $a->fetchAll()[0]['id'];
 		$req = "select * from nouvelle where RSS_id = :id";
 		$sth = $this->db->prepare($req);
-		$sth->execute(array($RSS->id));
+		$sth->execute(array($id));
 		if($sth == false)
 			return false;
 		return $sth->fetchAll(PDO::FETCH_CLASS,'Nouvelle');
@@ -110,7 +123,7 @@ require_once('../model/RSS.class.php');
 		$q = "UPDATE nouvelle SET titre=:titre, date=:date, description=:description WHERE url=:url";
 		$s = $this->db->prepare($q);
           try {
-            $r = $s->exec(array($n->titre,$n->date,$n->description,$n->url));
+            $r = $s->execute(array($n->titre(),$n->date(),$n->description(),$n->url()));
             if ($r == 0) {
               die("updateRSS error: no nouvelle updated\n");
             }
@@ -165,7 +178,7 @@ require_once('../model/RSS.class.php');
 		}
 			if ($n < count($tab)){
 				return false;
-			}else
+			}else{
 				return true;
 		}
 	}

@@ -98,6 +98,21 @@ require_once('../model/RSS.class.php');
 		// Met à jour uniquement le titre et la date
 	}
 
+	function fluxFromCategorie(Categorie $c){
+		$req = "select r.url from RSS r, fluxcategorie f  where f.categorie = :categorie AND f.RSS_id = r.id";
+		$sth = $this->db->prepare($req);
+		$sth->execute(array($c->name));
+		if($sth == false)
+			return false;
+		$result = $sth->fetchAll();
+		$rsss = [];
+		foreach($result as $a){
+			$rsss[] = new RSS($a['url']);
+		}
+		return $rsss;
+	}
+
+
       }
 $dao = new DAO();
 

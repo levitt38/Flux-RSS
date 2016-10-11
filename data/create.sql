@@ -27,11 +27,15 @@
       primary key (name)
       );
 
+
+      CREATE TABLE fluxcategorie(
+	categorie varchar(30) REFERENCES categorie(name),
+	RSS_id integer REFERENCES RSS(id),
+	primary key (categorie,RSS_id)
+      );
+
       CREATE TABLE abonnement (
-      utilisateur_login varchar(10),
-      RSS_id integer,
-      nom varchar(40),
-      categorie varchar(30),
-      primary key (utilisateur_login,RSS_id),
-      FOREIGN KEY(categorie) REFERENCES categorie(name)
+      utilisateur_login varchar(80) REFERENCES utilisateur(login),
+      RSS_id integer REFERENCES RSS(id),
+      primary key (utilisateur_login,RSS_id)
       );

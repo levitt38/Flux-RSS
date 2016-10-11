@@ -28,3 +28,11 @@ h3{
 button{
   margin: 0px 10px;
 }
+
+.card{
+	text-align: left;
+}
+
+.card-img-top, .card-block{
+	display: inline-block;
+}

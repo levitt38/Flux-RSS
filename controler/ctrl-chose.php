@@ -3,8 +3,8 @@ require_once("../model/Categorie.class.php");
 
 $bd = array(
   array("Mode","Actu de la mode","mode.jpeg"),
-  array("Finances","Actu des finances","finance.jpeg"),
-  array("Sciences","Actu des sciences","science.jpeg"),
+  array("Finance","Actu des finances","finance.jpeg"),
+  array("Science","Actu des sciences","science.jpeg"),
   array("Gaming","Actu du gaming","gaming.jpeg")
 );
 
@@ -17,6 +17,8 @@ if( ! isset($choix)){
   ];
 }
 
+
+// GESTION DE L'UI
 if(isset($_GET['Finance']) || isset($_GET['Mode']) || isset($_GET['Science']) || isset($_GET['Gaming'])){
     if(isset($_GET['Finance']) && $_GET['Finance']==1){
       $choix['Finance'] = ($choix['Finance']==0 && ! isset($_GET['Financebis'])) ? 1 : 0;
@@ -31,13 +33,6 @@ if(isset($_GET['Finance']) || isset($_GET['Mode']) || isset($_GET['Science']) ||
       $choix['Gaming'] = ($choix['Gaming']==0 && ! isset($_GET['Gamingbis'])) ? 1 : 0;
     }
 }
-
-foreach($bd as $key => $value){
-  $categories[] = new Categorie($value);
-}
-
-include_once("../view/chose.html");
-
 function createURL($tab){
   $queryString = "";
   foreach($tab as $key => $value){
@@ -48,5 +43,13 @@ function createURL($tab){
   }
   return $queryString;
 }
+
+foreach($bd as $key => $value){
+  $categories[] = new Categorie($value);
+}
+
+include_once("../view/chose.html");
+
+
 
 ?>

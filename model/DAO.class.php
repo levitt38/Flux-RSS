@@ -158,6 +158,9 @@ require_once('../model/RSS.class.php');
 			return false;
 		}
 		$result = $query->fetchAll();
+		if(count($result) < 1){
+			return 0;
+		}
 		return $result;
 	}
 
@@ -165,10 +168,8 @@ require_once('../model/RSS.class.php');
 		$req = "insert INTO utilisateur(login,mp) values (:login,:pwd)";
 		$query = $this->db->prepare($req);
 		$query->execute(array($login,$pwd));
-		if ($n < 1){
-			return false;
-		}else
-			return true;
+		$result = ($query->rowCount()<1) ? false : true;
+		return $result;
 	}
 
 	function insertPreferencesUser($tab,$login){
@@ -177,14 +178,10 @@ require_once('../model/RSS.class.php');
 			$req = "insert INTO interets(userID,categorieID) values (:userid,:catid)";
 			$query = $this->db->prepare($req);
 			$query->execute(array($login,$value));
-			$comte++;
+			$comte += ($query->rowCount()<1) ? 1 : 0;
 		}
-			if ($n < count($tab)){
-				return false;
-			}else{
-				return true;
-		}
-	}
+			return ($comte < count($tab));
+	 }
 
 
       }

@@ -23,7 +23,7 @@
           $nom = ($choix[$value->name]==1) ? $value->name."bis" : $value->name;
           $etat = ($choix[$value->name]==1) ? "=0" : "=1";
           echo '<div class="col-lg-4">';
-          echo '<a href="http://www-etu-info.iut2.upmf-grenoble.fr/~nourik/m3104/tp1/RSS/controler/ctrl-chose.php?'.$nom.$etat.createURL($choix).'"><div class="card"';
+          echo '<a href="http://www-etu-info.iut2.upmf-grenoble.fr/~nourik/m3104/tp1/BobMi-l-heure/controler/ctrl-chose.php?'.$nom.$etat.createURL($choix).'"><div class="card"';
           if($choix[$value->name] == 1){
               echo ' style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)"';
           }
@@ -36,12 +36,15 @@
           echo '</h4>';
           echo '</div>
                 </div></a>
-                </div>';
+                </div>
         }
       }
-      ?>
-    </div>
+
+    </div>';
+    echo '<a href="http://www-etu-info.iut2.upmf-grenoble.fr/~nourik/m3104/tp1/BobMi-l-heure/controler/ctrl-chose.php?'.createURL($choix).'">
     <button type="submit" class="btn btn-success">Confirmer</button>
+  </a>';
+    ?>
     </div>
   </div>
 </body>

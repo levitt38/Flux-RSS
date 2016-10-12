@@ -10,35 +10,53 @@
     <h3 class="lead">Votre magazine personnel</h3>
 
     <?php
+      if(isset($_GET["error"])){
+        switch($_GET["error"]){
+          case "pwd" : echo '<div class="alert alert-warning" role="alert">
+                      <strong>Attention!</strong> Veuillez revoir votre mot de passe
+                      </div>';
+                        break;
+          case "login" : echo '<div class="alert alert-danger" role="alert">
+                      <strong>Attention!</strong> Ce nom d\'utilisateur n\'existe pas
+                      </div>';
+                        break;
+          case "taken" : echo '<div class="alert alert-danger" role="alert">
+                      <strong>Attention!</strong> Ce nom d\'utilisateur est déja pris
+                      </div>';
+                        break;
+        }
+      }
       if( ! isset($_GET["sign"])){
       echo '<hr class="m-y-2">
             <p class="etat">Veuillez vous connecter</p>
-            <form>
+            <form action="login.php" method="post">
               <div class="form-group">
                 <label for="Login_user">Adresse email</label>
-                <input type="email" name="Login_user" class="form-control" id="Login_user" placeholder="Entrer email">
+                <input type="text" name="Login_user" class="form-control" id="Login_user" placeholder="Entrer email">
               </div>
               <div class="form-group">
                 <label for="Login_pwd">Mot de passe</label>
                 <input type="password" name="Login_pwd" class="form-control" id="Login_pwd" placeholder="Mot de passe">
               </div>
               <a href="ctrl-login.php?sign=1">Créer un compte</a><br><br>
-              <button type="submit" class="btn btn-primary">Se connecter</button>
+              <input type="hidden" name="etat" value="login">
+              <input type="submit" class="btn btn-primary" value="Connection">
             </form>';
       } else {
       echo '<hr class="m-y-2">
             <p class="etat">Créer votre compte</p>
-            <form>
+            <form action="login.php" method="post">
               <div class="form-group">
                 <label for="Sign_user">Adresse email</label>
-                <input type="email" name="Sign_user" class="form-control" id="Sign_user" placeholder="Entrer email">
+                <input type="text" name="Sign_user" class="form-control" id="Sign_user" placeholder="Entrer email">
               </div>
               <div class="form-group">
                 <label for="Sign_pwd">Mot de passe</label>
                 <input type="password" name="Sign_pwd" class="form-control" id="Sign_pwd" placeholder="Mot de passe">
               </div>
               <a href="ctrl-login.php">Déja inscrit ? Connectez vous</a><br><br>
-              <button type="submit" class="btn btn-primary">S\'inscrire</button>
+              <input type="hidden" name="etat" value="sign">
+              <input type="submit" class="btn btn-primary" value="S\'inscrire">
               </form>';
       }
     ?>

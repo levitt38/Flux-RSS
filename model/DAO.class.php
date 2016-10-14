@@ -18,6 +18,15 @@ require_once('../model/RSS.class.php');
         // Methodes CRUD sur RSS
         //////////////////////////////////////////////////////////
 
+	function getIDfromRSS(RSS $rss){
+
+		$a = $this->db->prepare("select * from RSS where url = '".$rss->url()."'");
+		$a->execute();
+		return $a->fetchAll()[0]['id'];
+
+
+	}
+
         // Crée un nouveau flux à partir d'une URL
         // Si le flux existe déjà on ne le crée pas
         function createRSS($url) {
@@ -67,13 +76,16 @@ require_once('../model/RSS.class.php');
           } catch (PDOException $e) {
             die("PDO Error :".$e->getMessage());
 	  			}
-		$a = $this->db->prepare("select * from RSS where url = '".$rss->url()."'");
-		$a->execute();
-		$id = $a->fetchAll()[0]['id'];
-		foreach($rss->nouvelles() as $nou)
-			$this->createNouvelle($nou,$id);
-			$this->updateNouvelle($nou,$id);
-
+		$id = $this->getIDfromRSS($rss);
+		//var_dump($rss->nouvelles());
+		foreach($rss->nouvelles() as $nou){
+			$a = $this->readNouvellesFromTitreID($id,$nou->titre());
+			//var_dump($nou);
+			if(count($a)==0)
+				$this->createNouvelle($nou,$id);
+			else
+				$this->updateNouvelle($nou,$id);
+		}
         }
 
         //////////////////////////////////////////////////////////
@@ -101,7 +113,17 @@ require_once('../model/RSS.class.php');
 		else
 			return true;
 	}
+	function readNouvellesFromTitreID($id,$titre){
+		$req = "select * from nouvelle where RSS_id = :id and titre=:titre";
+		$sth = $this->db->prepare($req);
+		$sth->execute(array($id,$titre));
+		if($sth == false)
+			return false;
+		return $sth->fetchAll(PDO::FETCH_CLASS,'Nouvelle');
 
+
+
+	}
 	function readNouvellesFromRSS(RSS $rss){
 		$req = "select * from nouvelle where RSS_id = :id";
 		$sth = $this->db->prepare($req);
@@ -111,21 +133,12 @@ require_once('../model/RSS.class.php');
 		return $sth->fetchAll(PDO::FETCH_CLASS,'Nouvelle');
 	}
 
-	function getIDfromRSS(RSS $rss){
-
-		$a = $this->db->prepare("select * from RSS where url = '".$rss->url()."'");
-		$a->execute();
-		return $a->fetchAll()[0]['id'];
-
-
-	}
-
         // Met à jour la nouvelle dans la base
         function updateNouvelle(Nouvelle $n, $RSS_id) {
-		$q = "UPDATE nouvelle SET titre=:titre, date=:date, description=:description WHERE RSS_id=:id";
+		$q = "UPDATE nouvelle SET titre=:titre, description=:description WHERE date=:date and RSS_id=:id";
 		$s = $this->db->prepare($q);
           try {
-            $r = $s->execute(array($n->titre(),$n->date(),$n->description(),$RSS_id));
+            $r = $s->execute(array($n->titre(),$n->description(),$n->date(),$RSS_id));
             if ($r == 0) {
               die("updateRSS error: no nouvelle updated\n");
             }

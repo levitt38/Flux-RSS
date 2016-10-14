@@ -182,8 +182,7 @@ require_once('../model/RSS.class.php');
 			return ($comte < count($tab));
 	 }
 
-
-      }
+}
 $dao = new DAO();
 
 ?>

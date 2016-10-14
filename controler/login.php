@@ -17,16 +17,16 @@ if($_POST["etat"]=="login"){
       if(password_verify($pwd, $result[0]["mp"])){
         session_start();
         $_SESSION["id"] = $result[0]["id"];
-        header("Location: http://www-etu-info.iut2.upmf-grenoble.fr/~nourik/m3104/tp1/BobMi-l-heure/controler/ctrl-home.php");
+        header("Location: ../controler/ctrl-home.php");
       }
       //Cas 2 => mauvais password
       else {
-        header("Location: http://www-etu-info.iut2.upmf-grenoble.fr/~nourik/m3104/tp1/BobMi-l-heure/controler/ctrl-login.php?error=pwd");
+        header("Location: ../controler/ctrl-login.php?error=pwd");
       }
     }
       //Cas 3 => login inexistant
     else {
-        header("Location: http://www-etu-info.iut2.upmf-grenoble.fr/~nourik/m3104/tp1/BobMi-l-heure/controler/ctrl-login.php?error=login");
+        header("Location: ../controler/ctrl-login.php?error=login");
     }
   }
 }
@@ -44,12 +44,12 @@ else {
       if($result==true){
         session_start();
         $_SESSION["id"] = $login;
-        header("Location: ctrl-chose.php?");
+        header("Location: ../controler/ctrl-chose.php?");
       } else { echo "probleme de insert"; }
     }
     //Cas 2 => login déja pris
     else {
-      header("Location: http://www-etu-info.iut2.upmf-grenoble.fr/~nourik/m3104/tp1/BobMi-l-heure/controler/ctrl-login.php?error=taken&sign=1");
+      header("Location: ../controler/ctrl-login.php?error=taken&sign=1");
     }
   }
 }

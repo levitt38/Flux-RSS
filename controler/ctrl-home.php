@@ -15,10 +15,10 @@ foreach($categories as $cat){
 }
 $nouvelles = [];
 foreach($rsss as $rss){
-	if (time()-$rss->date() > 120){
+	//if (time()-$rss->date() > 12){
 		$rss->update();
 		$dao->updateRSS($rss);
-	}
+	//}
 	$n = $dao->readNouvellesFromRSS($rss);
 	foreach($n as $nouv)
 		$nouvelles[] = $nouv;
@@ -33,16 +33,6 @@ foreach($nouvelles as $n){
 
 
 }
-	$a = [];
-	$a['titre'] = "First Nouvelle";
-	$a['description'] = "Meilleure nouvelle in the world";
-	$a['imagepath'] = 'https://yt3.ggpht.com/-kTMRiuX2Jxo/AAAAAAAAAAI/AAAAAAAAAAA/hPUprMNmzb4/s88-c-k-no-mo-rj-c0xffffff/photo.jpg';
-	$cards[] = $a;
-	$cards[] = $a;
-
-
-
-
 
 
 include_once('../view/home.html');

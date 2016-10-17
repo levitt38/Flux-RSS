@@ -7,12 +7,17 @@ include_once('../model/Categorie.class.php');
 $categories = array(
   new Categorie(["Mode","Actu de la mode","mode.jpeg"])
 );
+$categories = $dao->getPreferencesUser("admin");
 $rsss = [];
 foreach($categories as $cat){
 	$rss = $dao->RSSFromCategorie($cat);
 	foreach($rss as $r)
 		$rsss[] = $r;
 }
+$rss = $dao->getAbonnementsUser("admin");
+
+foreach($rss as $r)
+	$rsss[] = $r;
 $nouvelles = [];
 foreach($rsss as $rss){
 	//if (time()-$rss->date() > 12){

@@ -1,5 +1,6 @@
 <?php
 require_once("../model/Categorie.class.php");
+session_start();
 
 $bd = array(
   array("Mode","Actu de la mode","mode.jpeg"),

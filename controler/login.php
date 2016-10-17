@@ -1,5 +1,6 @@
 <?php
 require_once("../model/DAO.class.php");
+session_start();
 
 if(count($_POST["etat"])<1){
   die("erreur hidden input");
@@ -26,7 +27,7 @@ if($_POST["etat"]=="login"){
     }
       //Cas 3 => login inexistant
     else {
-        header("Location: ../controler/ctrl-login.php?error=login");
+      header("Location: ../controler/ctrl-login.php?error=login");
     }
   }
 }
@@ -45,12 +46,15 @@ else {
         session_start();
         $_SESSION["id"] = $login;
         header("Location: ../controler/ctrl-chose.php?");
-      } else { echo "probleme de insert"; }
+      } else { echo "probleme de insert lors de la création de compte"; }
     }
     //Cas 2 => login déja pris
     else {
       header("Location: ../controler/ctrl-login.php?error=taken&sign=1");
     }
+  }
+  else {
+    echo 'problème de connexion coté SignIn';
   }
 }
 

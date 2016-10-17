@@ -17,7 +17,7 @@ if($_POST["etat"]=="login"){
       //Cas 1 => bon login
       if(password_verify($pwd, $result[0]["mp"])){
         session_start();
-        $_SESSION["id"] = $result[0]["id"];
+        $_SESSION["id"] = $result[0]["login"];
         header("Location: ../controler/ctrl-home.php");
       }
       //Cas 2 => mauvais password

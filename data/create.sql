@@ -18,7 +18,7 @@
       CREATE TABLE utilisateur (
       id integer primary key autoincrement,
       login varchar(80),
-      mp varchar(8)
+      mp varchar(80)
       );
 
       CREATE TABLE categorie(

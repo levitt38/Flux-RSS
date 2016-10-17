@@ -213,8 +213,14 @@ require_once('../model/RSS.class.php');
 			$query->execute(array($i));
 			$a = $query->fetchAll(PDO::FETCH_CLASS,'RSS');
 			return $a;
-	}
+		}
 
+		function addAbonnementsUser($userLogin, $rss){
+			$req = "insert into abonnement values (:userid,:rssid)";
+			$query = $this->db->prepare($req);
+			$a = $query->execute(array($userLogin,$this->getIDfromRSS($rss)));
+			return $a;
+	}
 }
 $dao = new DAO();
 

@@ -2,19 +2,22 @@
 include_once('../model/DAO.class.php');
 include_once('../model/Categorie.class.php');
 
-
-
+session_start();
+if(isset($_SESSION['id']))
+	$name = $_SESSION['id'];
+else
+	header('Location: ../controler/ctrl-login.php');
 $categories = array(
   new Categorie(["Mode","Actu de la mode","mode.jpeg"])
 );
-$categories = $dao->getPreferencesUser("admin");
+$categories = $dao->getPreferencesUser($name);
 $rsss = [];
 foreach($categories as $cat){
 	$rss = $dao->RSSFromCategorie($cat);
 	foreach($rss as $r)
 		$rsss[] = $r;
 }
-$rss = $dao->getAbonnementsUser("admin");
+$rss = $dao->getAbonnementsUser($name);
 
 foreach($rss as $r)
 	$rsss[] = $r;

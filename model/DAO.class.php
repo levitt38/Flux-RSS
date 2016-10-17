@@ -135,10 +135,10 @@ require_once('../model/RSS.class.php');
 
         // Met à jour la nouvelle dans la base
         function updateNouvelle(Nouvelle $n, $RSS_id) {
-		$q = "UPDATE nouvelle SET titre=:titre, description=:description WHERE date=:date and RSS_id=:id";
+		$q = "UPDATE nouvelle SET titre=:titre, description=:description,image=:image WHERE date=:date and RSS_id=:id";
 		$s = $this->db->prepare($q);
           try {
-            $r = $s->execute(array($n->titre(),$n->description(),$n->date(),$RSS_id));
+            $r = $s->execute(array($n->titre(),$n->description(),$n->image(),$n->date(),$RSS_id));
             if ($r == 0) {
               die("updateRSS error: no nouvelle updated\n");
             }
@@ -193,7 +193,27 @@ require_once('../model/RSS.class.php');
 			$comte += ($query->rowCount()<1) ? 1 : 0;
 		}
 			return ($comte < count($tab));
-	 }
+	}
+
+	function getPreferencesUser($i){
+			$req = "select c.* from categorie c,interets i where i.userID=:userid and i.categorieID=c.name";
+			$query = $this->db->prepare($req);
+			$query->execute(array($i));
+			$a = $query->fetchAll();
+			$b = [];
+			foreach($a as $c){
+				$b[] = new Categorie($c);
+			}
+			return $b;
+	}
+
+		function getAbonnementsUser($i){
+			$req = "select * from abonnement where utilisateur_login=:userid";
+			$query = $this->db->prepare($req);
+			$query->execute(array($i));
+			$a = $query->fetchAll(PDO::FETCH_CLASS,'RSS');
+			return $a;
+	}
 
 }
 $dao = new DAO();

@@ -1,0 +1,24 @@
+@import url(http://weloveiconfonts.com/api/?family=iconicfill);
+
+/* zocial */
+[class*="iconicfill-"]:before {
+  font-family: 'iconicfill', sans-serif;
+}
+
+nav{
+  margin-bottom: 10px;
+}
+
+.navbar-brand{
+  font-size: 1.5em;
+}
+
+button{
+  margin: 0px 10px;
+}
+
+#user{
+  font-size: 1.2em;
+  line-height: 1.5em;
+  margin-right: 20px;
+}

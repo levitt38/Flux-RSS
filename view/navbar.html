@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="../view/navbar.css">
+<nav class="navbar navbar-light bg-faded">
+<a class="navbar-brand" href="../">Journal</a>
+<ul class="nav navbar-nav">
+  <?php
+    require_once("../model/DAO.class.php");
+
+    if (isset($_SESSION["id"])) {
+      $userName = $dao->getUserByID($_SESSION["id"]);
+      $userName = $userName[0]["login"];
+    } else {
+      $userName = "User";
+    }
+
+    $useCase = $_SERVER["REQUEST_URI"];
+    $useCase = explode("/controler/",$useCase);
+    $useCase = explode(".php",$useCase[1]);
+    $useCase = $useCase[0];
+
+    switch($useCase){
+      case "ctrl-home" : echo '<a href="../controler/logout.php"><button class="btn btn-primary pull-sm-right" type="submit">Deconnexion</button></a>
+      <a href="../controler/ctrl-option.php"><button class="btn btn-outline-primary pull-sm-right" type="submit">Mes Options</button></a>
+      <a class="nav-link pull-sm-right" id="user" href=""><span class="iconicfill-user"><span>'." ".$userName.'</span></span></a>';
+                        break;
+      case "ctrl-option" : echo '<a href="../controler/logout.php"><button class="btn btn-primary pull-sm-right" type="submit">Deconnexion</button></a>
+      <a href="../controler/ctrl-home.php"><button class="btn btn-outline-primary pull-sm-right" type="submit">Mes Actualités</button></a>
+      <a class="nav-link pull-sm-right" id="user" href=""><span class="iconicfill-user"><span>'." ".$userName.'</span></span></a>';
+                        break;
+      case "ctrl-chose" : echo '<a href="../controler/logout.php"><button class="btn btn-primary pull-sm-right" type="submit">Deconnexion</button></a>
+      <a href="../controler/ctrl-home.php"><button class="btn btn-outline-primary pull-sm-right" type="submit">Mes Actualités</button></a>
+      <a class="nav-link pull-sm-right" id="user" href=""><span class="iconicfill-user"><span>'." ".$userName.'</span></span></a>';
+                        break;
+      default : echo '<a href="../controler/logout.php"><button class="btn btn-primary pull-sm-right" type="submit">Deconnexion</button></a>
+      <a class="nav-link pull-sm-right" id="user" href=""><span class="iconicfill-user"><span>'." ".$userName.'</span></span></a>';
+                        break;
+    }
+  ?>
+</ul>
+</nav>

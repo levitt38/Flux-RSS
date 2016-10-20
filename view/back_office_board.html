@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="../view/home.css">
+  <link rel="stylesheet" href="../view/back_office.css">
+</head>
+<body>
+  <nav class="navbar navbar-light bg-faded">
+  <a class="navbar-brand" href="#">Journal</a>
+  <ul class="nav navbar-nav">
+    <a class="btn btn-outline-primary pull-md-right" href="../controler/ctrl-home.php">Home</a>
+    <button class="btn btn-outline-primary pull-md-right" type="submit">Login</button>
+  </nav>
+  <h1 class="display-4">Gestion des flux</h1>
+  <h3 class="lead">Menu</h3>
+
+  <div class="jumbotron">
+	  <div class="container">
+		  <div class="col-sm-4"></div>
+		  <div class="col-sm-4">
+      <h2 class="display-6">Choisissez une action : </h2>
+      <a type="button" class="btn btn-outline-primary" href="../controler/ctrl-back-office.php?etat=ajoutcat">Ajouter une catégorie</a>
+      <a type="button" class="btn btn-outline-primary"href="../controler/ctrl-back-office.php?etat=ajoutflux">Modifier/supprimer catégorie</a>
+      <a type="button" class="btn btn-outline-primary" href="../controler/ctrl-back-office.php?etat=assocflux">Ajouter flux à catégorie</a>
+      <a type="button" class="btn btn-outline-primary" href="../controler/ctrl-back-office.php?etat=ajoutflux">Ajouter un flux</a>
+      <a type="button" class="btn btn-outline-primary" href="../controler/ctrl-back-office.php?etat=modiffluxes">Modifier les flux d'une catégorie</a>
+		  </div>
+	  </div>
+  </div>
+</body>
+</html>

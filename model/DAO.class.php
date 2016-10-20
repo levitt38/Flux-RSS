@@ -17,6 +17,22 @@ require_once('../model/RSS.class.php');
         //////////////////////////////////////////////////////////
         // Methodes CRUD sur RSS
         //////////////////////////////////////////////////////////
+	 
+	 function getRSSs(){
+		$req = "select * from rss";
+		$sth = $this->db->prepare($req);
+		$sth->execute();
+		if($sth == false)
+			return false;
+		$result = $sth->fetchAll();
+		$cate = [];
+		foreach($result as $c){
+			$a = new RSS($c['url']);
+			$a->update();
+			$cate[] = $a;
+		}
+		return $cate;
+	}
 
 	function getIDfromRSS(RSS $rss){
 
@@ -27,11 +43,15 @@ require_once('../model/RSS.class.php');
 
 	}
 
+	function getIDfromRSSURL($url){
+		return $this->getIDfromRSS(new RSS($url));
+	}
+
         // Crée un nouveau flux à partir d'une URL
         // Si le flux existe déjà on ne le crée pas
         function createRSS($url) {
           $rss = $this->readRSSfromURL($url);
-          if ($rss == NULL) {
+          if ($rss->url() == NULL) {
             try {
               $q = "INSERT INTO RSS (url) VALUES ('$url')";
               $r = $this->db->exec($q);
@@ -64,7 +84,8 @@ require_once('../model/RSS.class.php');
 
         // Met à jour un flux
         function updateRSS(RSS $rss) {
-          // Met tout à jour
+	  // Met tout à jour
+		var_dump($rss);
 		$titre = ($this->db->quote($rss->titre()));
 		$q = "UPDATE RSS SET titre=:titre, date=:date WHERE url=:url";
 		$s = $this->db->prepare($q);
@@ -77,7 +98,7 @@ require_once('../model/RSS.class.php');
             die("PDO Error :".$e->getMessage());
 	  			}
 		$id = $this->getIDfromRSS($rss);
-		//var_dump($rss->nouvelles());
+		//var_dump($rss);
 		foreach($rss->nouvelles() as $nou){
 			$a = $this->readNouvellesFromTitreID($id,$nou->titre());
 			//var_dump($nou);
@@ -147,6 +168,17 @@ require_once('../model/RSS.class.php');
           }
 	}
 
+	function createCategorie(Categorie $c){
+		$req = "INSERT INTO categorie values (:name,:description,:image)";
+		$sth = $this->db->prepare($req);
+		$n = $sth->execute(array($c->name(),$c->description(),$c->image()));
+		if ($n != 1)
+			return false;
+		else
+			return true;
+	}
+
+
 	function RSSFromCategorie(Categorie $c){
 		$req = "select r.url from RSS r, fluxcategorie f  where f.categorie = :categorie AND f.RSS_id = r.id";
 		$sth = $this->db->prepare($req);
@@ -159,6 +191,28 @@ require_once('../model/RSS.class.php');
 			$rsss[] = new RSS($a['url']);
 		}
 		return $rsss;
+	}
+	function getCategorie($s){
+		$req = "select * from categorie where name=:name";
+		$sth = $this->db->prepare($req);
+		$sth->execute(array($s));
+		if($sth == false)
+			return false;
+		$result = $sth->fetchAll();
+		return new Categorie($result[0]);
+	}
+	function getCategories(){
+		$req = "select * from categorie";
+		$sth = $this->db->prepare($req);
+		$sth->execute();
+		if($sth == false)
+			return false;
+		$result = $sth->fetchAll();
+		$cate = [];
+		foreach($result as $c){
+			$cate[] = new Categorie($c);
+		}
+		return $cate;
 	}
 
 	// GESTION DE LA BASE UTILISATEUR
@@ -220,7 +274,25 @@ require_once('../model/RSS.class.php');
 			$query = $this->db->prepare($req);
 			$a = $query->execute(array($userLogin,$this->getIDfromRSS($rss)));
 			return $a;
-	}
+		}
+
+
+		function ajoutFluxCategorie( $rssurl, Categorie $cat){
+			$id = $this->getIDfromRSSURL($rssurl);
+			$req = "insert INTO fluxcategorie values ('$cat->name',$id)";
+			$a = $this->db->exec($req);
+			var_dump($a);
+			return $a;
+
+		}
+
+		function removeFluxCategorie( $rssurl, Categorie $cat){
+			$id = $this->getIDfromRSSURL($rssurl);
+			$req = "delete from fluxcategorie where categorie='$cat->name' and RSS_id=$id";
+			$a = $this->db->exec($req);
+			return $a;
+
+		}
 }
 $dao = new DAO();
 

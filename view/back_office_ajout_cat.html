@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="../view/home.css">
+</head>
+<body>
+  <nav class="navbar navbar-light bg-faded">
+  <a class="navbar-brand" href="#">Journal</a>
+  <ul class="nav navbar-nav">
+    <button class="btn btn-outline-primary pull-md-right" type="submit">Login</button>
+  </nav>
+  <h1 class="display-4">Gestion des flux</h1>
+  <h3 class="lead">Ajouter une catégorie</h3>
+
+  <div class="jumbotron">
+      <h2 class="display-6">Catégorie : </h2>
+      <?php if($alert){
+	  if($error){?>
+      <div class="alert alert-danger">
+	      <?php if($err=="noname"){ ?>
+	      	Veuillez entrer un nom de catégorie
+	      <?php }else if($err=="nolink"){ ?>
+	      	Veuillez entrez un lien d'image
+	      <?php }else if($err=="nodescription"){ ?>
+	      	Veuillez entrez une description
+		<?php }else /*if ($err=="nametaken")*/{ ?>
+	      	Nom déjà pris
+	      <?php }?>
+      </div>
+      <?php }else{?>
+      <div class="alert alert-success">
+	      Catégorie ajoutée avec succès.
+      </div>
+      <?php }?>
+      <?php }?>
+ <form action="manip_admin.php" method="post">
+  <label>Nom :</label><br>
+     <input value="" name="nom"><br><br>
+  <label>Description :</label><br>
+  <textarea value="" name="description"></textarea><br><br>
+  <label>Lien vers l'image :</label><br>
+     <input value="http://" type="link" name="lien"><br><br>
+     <input type="hidden" name="etat" value="ajoutcat">
+  <input type="submit" value="Ajouter">
+</form> 
+  </div>
+</body>
+</html>

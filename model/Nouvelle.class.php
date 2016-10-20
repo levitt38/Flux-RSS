@@ -40,6 +40,7 @@ class Nouvelle{
 
 	function downloadImage(DOMElement $item, $imageId) {
 		$node = $item->getElementsByTagName('enclosure')->item(0);
+		if ($node != NULL){
 		$node = $node->attributes->getNamedItem('url');
 		if ($node != NULL) {
 		// L'attribut url a été trouvé : on récupère sa valeur, c'est l'URL de l'image
@@ -48,6 +49,7 @@ class Nouvelle{
 			$this->image = '../data/images/'.$imageId.'.jpg';
 			// On télécharge l'image à l'aide de son URL, et on la copie localement.
 			file_put_contents($this->image, file_get_contents($url));
+		}
 		}
 
 	}

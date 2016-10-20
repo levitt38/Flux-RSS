@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="../view/home.css">
+</head>
+<body>
+  <nav class="navbar navbar-light bg-faded">
+  <a class="navbar-brand" href="#">Journal</a>
+  <ul class="nav navbar-nav">
+    <button class="btn btn-outline-primary pull-md-right" type="submit">Login</button>
+  </nav>
+  <h1 class="display-4">Gestion des flux</h1>
+  <h3 class="lead">Modifier les flux d'une catégorie</h3>
+
+  <div class="jumbotron">
+      <h2 class="display-6">Catégorie : </h2>
+      <?php if($alert){
+	  if($error){?>
+      <div class="alert alert-danger">
+	      <?php if($err=="nocat"){ ?>
+	      	Veuillez choisir une catégorie
+	      <?php }else if($err=="noflux"){ ?>
+	      	Veuillez choisir un flux
+		<?php }else { ?>
+	      	Flux non présent dans la catégorie
+	      <?php }?>
+      </div>
+      <?php }else{?>
+      <div class="alert alert-success">
+	      Flux dissocié avec succès.
+      </div>
+      <?php }?>
+      <?php }?>
+  <label>Catégorie :</label><br>
+  <?php if(!$selected){?>
+ <form action="ctrl-back-office.php" method="GET">
+     <select name="catselected"><br><br>
+	     <option value="">Choisissez une catégorie</option>
+	     <?php foreach($categories as $c){?>
+	     <option value=<?php echo $c->name().'>'.$c->name()?> </option>
+	     <?php } ?>
+     </select>
+     <input type="hidden" name="etat" value="modiffluxes">
+	<input type="submit" value="sélectionner">
+ </form>
+<?php }else{ echo $_GET['catselected'];?>
+
+
+
+
+ <br><hr>
+  <label>Flux :</label><br>
+  	<?php foreach($fluxes as $f){?>
+	<form action="../controler/manip_admin.php" method="POST">
+		<input type="submit" class="delete">
+		<?php echo $f->titre()?>
+		<input type="hidden" name="delete" value="<?php echo $f->url() ?>">
+		<input type="hidden" name="catselected" value="<?php echo $_GET['catselected'] ?>">
+		<input type="hidden" name="etat" value="modiffluxes">
+	</form>
+	<hr>
+	<?php } ?>
+  <input type="submit" value="Associer">
+ <?php }?>
+  </div>
+</body>
+</html>

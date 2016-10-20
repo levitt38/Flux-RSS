@@ -10,6 +10,18 @@ class Categorie{
     $this->description = $tab[1];
     $this->img = $tab[2];
   }
+
+  function name(){
+	  return $this->name;
+  }
+
+  function description(){
+	  return $this->description;
+  }
+
+  function image(){
+	  return $this->img;
+  }
 }
 
 ?>

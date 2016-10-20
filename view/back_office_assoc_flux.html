@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="../view/home.css">
+</head>
+<body>
+  <nav class="navbar navbar-light bg-faded">
+  <a class="navbar-brand" href="#">Journal</a>
+  <ul class="nav navbar-nav">
+    <button class="btn btn-outline-primary pull-md-right" type="submit">Login</button>
+  </nav>
+  <h1 class="display-4">Gestion des flux</h1>
+  <h3 class="lead">Ajouter un flux à une catégorie</h3>
+
+  <div class="jumbotron">
+      <h2 class="display-6">Flux : </h2>
+      <?php if($alert){
+	  if($error){?>
+      <div class="alert alert-danger">
+	      <?php if($err=="nocat"){ ?>
+	      	Veuillez choisir une catégorie
+	      <?php }else if($err=="noflux"){ ?>
+	      	Veuillez choisir un flux
+		<?php }else { ?>
+	      	Flux déjà associé
+	      <?php }?>
+      </div>
+      <?php }else{?>
+      <div class="alert alert-success">
+	      Flux associé avec succès.
+      </div>
+      <?php }?>
+      <?php }?>
+ <form action="manip_admin.php" method="post">
+  <label>Catégorie :</label><br>
+     <select name="categorie"><br><br>
+	     <option value="">Choisissez une catégorie</option>
+	     <?php foreach($categories as $c){?>
+	     <option value=<?php echo $c->name().'>'.$c->name()?> </option>
+	     <?php } ?>
+     </select><br>
+  <label>Flux :</label><br>
+     <select name="flux"><br><br>
+	     <?php foreach($flux as $f){?>
+	     <option value=<?php echo $f->url().'>'.$f->titre()?> </option>
+	     <?php } ?>
+     </select><br>
+     <input type="hidden" name="etat" value="assocflux">
+  <input type="submit" value="Associer">
+</form> 
+  </div>
+</body>
+</html>

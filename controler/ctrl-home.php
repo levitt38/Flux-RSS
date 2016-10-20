@@ -11,6 +11,8 @@ $categories = array(
   new Categorie(["Mode","Actu de la mode","mode.jpeg"])
 );
 $categories = $dao->getPreferencesUser($name);
+if(count($categories)<1)
+	header('Location: ../controler/ctrl-chose.php');
 $rsss = [];
 foreach($categories as $cat){
 	$rss = $dao->RSSFromCategorie($cat);
@@ -23,10 +25,10 @@ foreach($rss as $r)
 	$rsss[] = $r;
 $nouvelles = [];
 foreach($rsss as $rss){
-	//if (time()-$rss->date() > 12){
+	if (time()-$rss->date() > 120){
 		$rss->update();
 		$dao->updateRSS($rss);
-	//}
+	}
 	$n = $dao->readNouvellesFromRSS($rss);
 	foreach($n as $nouv)
 		$nouvelles[] = $nouv;

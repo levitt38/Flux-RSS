@@ -29,8 +29,8 @@ else{
         $choix['Gaming'] = ($choix['Gaming']==0 && ! isset($_GET['Gamingbis'])) ? "Gaming" : 0;
       }
   }
-  print_r($_SESSION);
   $dao->insertPreferencesUser($choix,$_SESSION["id"]);
+  header("Location: ../controler/ctrl-home.php");
 }
 
 

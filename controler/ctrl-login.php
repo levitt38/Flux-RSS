@@ -1,8 +1,9 @@
 <?php
 
-if ( isset($_COOKIE['id']) && !isset($_SESSION["id"]) ){
-  $_SESSION["id"] = $_COOKIE['id'];
-  header("Location: ctrl-home.php");
+session_start();
+
+if ( isset($_SESSION["id"]) ){
+  header("Location: ../controler/ctrl-home.php");
 }
 
 include_once("../view/login.html");

@@ -8,16 +8,16 @@ if(count($_POST["etat"])<1){
 
 // Tentative de login
 if($_POST["etat"]=="login"){
-  if(isset($_POST["Login_user"]) && isset($_POST["Login_pwd"])){
-    $login = $_POST["Login_user"];
-    $pwd = $_POST["Login_pwd"];
+  if(!empty($_POST["Login_user"]) && !empty($_POST["Login_pwd"])){
+    $login = trim(htmlentities($_POST["Login_user"]));
+    $pwd = trim(htmlentities($_POST["Login_pwd"]));
     $result = $dao->getUserByLogin($login);
 
     if( $result != false){
       //Cas 1 => bon login
       if(password_verify($pwd, $result[0]["mp"])){
         session_start();
-        $_SESSION["id"] = $result[0]["login"];
+        $_SESSION["id"] = $result[0]["id"];
         header("Location: ../controler/ctrl-home.php");
       }
       //Cas 2 => mauvais password
@@ -29,13 +29,15 @@ if($_POST["etat"]=="login"){
     else {
       header("Location: ../controler/ctrl-login.php?error=login");
     }
+  } else {
+    header("Location: ../controler/ctrl-login.php");
   }
 }
 // Tentative de création de compte
 else {
-  if(isset($_POST["Sign_user"]) && isset($_POST["Sign_pwd"])){
-    $login = $_POST["Sign_user"];
-    $pwd = $_POST["Sign_pwd"];
+  if(!empty($_POST["Sign_user"]) && !empty($_POST["Sign_pwd"])){
+    $login = trim(htmlentities($_POST["Sign_user"]));
+    $pwd = trim(htmlentities($_POST["Sign_pwd"]));
     $pwd = password_hash($pwd, PASSWORD_BCRYPT);
     $result = $dao->getUserByLogin($login);
 
@@ -43,8 +45,9 @@ else {
     if($result == 0){
       $result = $dao->insertNewUser($login,$pwd);
       if($result==true){
+        $result = $dao->getUserByLogin($login);
         session_start();
-        $_SESSION["id"] = $login;
+        $_SESSION["id"] = $result[0]["id"];
         header("Location: ../controler/ctrl-chose.php?");
       } else { echo "probleme de insert lors de la création de compte"; }
     }
@@ -54,7 +57,7 @@ else {
     }
   }
   else {
-    echo 'problème de connexion coté SignIn';
+    header("Location: ../controler/ctrl-login.php");
   }
 }
 

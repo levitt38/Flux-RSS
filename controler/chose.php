@@ -2,33 +2,26 @@
 require_once("../model/DAO.class.php");
 session_start();
 
+$categories = $dao->getCategories();
+
 if( ! isset($_SESSION["id"])){
-  print_r($_SESSION);
-  die("La session n'est pas définie");
+  header("Location: ../controler/ctrl-login.php");
 }
 else{
   if( ! isset($choix)){
-    $choix = [
-      'Finance' => 0,
-      'Mode' => 0,
-      'Science' => 0,
-      'Gaming' => 0
-    ];
+  // Initialisation des choix
+    foreach ($categories as $key => $value) {
+      $choix[$value->name] = 0;
+    }
   }
-  if(isset($_GET['Finance']) || isset($_GET['Mode']) || isset($_GET['Science']) || isset($_GET['Gaming'])){
-      if(isset($_GET['Finance']) && $_GET['Finance']==1){
-        $choix['Finance'] = ($choix['Finance']==0 && ! isset($_GET['Financebis'])) ? "Finance" : 0;
-      }
-      if(isset($_GET['Mode']) && $_GET['Mode']==1){
-        $choix['Mode'] = ($choix['Mode']==0 && ! isset($_GET['Modebis'])) ? "Mode" : 0;
-      }
-      if(isset($_GET['Science']) && $_GET['Science']==1){
-        $choix['Science'] = ($choix['Science']==0 && ! isset($_GET['Sciencebis'])) ? "Science" : 0;
-      }
-      if(isset($_GET['Gaming']) && $_GET['Gaming']==1){
-        $choix['Gaming'] = ($choix['Gaming']==0 && ! isset($_GET['Gamingbis'])) ? "Gaming" : 0;
+  // Gestion des choix utilisateurs à insérer
+  foreach ($choix as $key => $value) {
+      if(isset($_GET[$key]) && $_GET[$key]==1){
+        $choix[$key] = ($choix[$key]==0 && ! isset($_GET[$key.'bis'])) ? 1 : 0;
       }
   }
+  //print_r($choix);die(0);
+  $dao->deletePreferencesUser($_SESSION["id"]);
   $dao->insertPreferencesUser($choix,$_SESSION["id"]);
   header("Location: ../controler/ctrl-home.php");
 }

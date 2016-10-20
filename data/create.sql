@@ -1,4 +1,4 @@
-      CREATE TABLE RSS (
+RSS      CREATE TABLE RSS (
       id integer primary key autoincrement,
       titre varchar(255),
       url varchar(255),

@@ -6,9 +6,7 @@ body{
   text-align: center;
   position: fixed;
 }
-nav{
-  margin-bottom: 10px;
-}
+
 h2{
   color: black;
   text-align: left;
@@ -21,6 +19,9 @@ h2{
   margin-top: 20px;
   background-color: white;
   padding-top: 20px;
+}
+.row{
+  padding-top: 100px;
 }
 
 button{

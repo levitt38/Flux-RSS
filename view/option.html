@@ -6,16 +6,50 @@
   <link rel="stylesheet" href="../view/option.css">
 </head>
 <body>
-  <nav class="navbar navbar-light bg-faded">
-  <a class="navbar-brand" href="#">Journal</a>
-  <ul class="nav navbar-nav">
-    <button class="btn btn-outline-primary pull-sm-left" type="submit">Ajouter</button>
-    <a href="../controler/logout.php"><button class="btn btn-primary pull-sm-right" type="submit">Deconnexion</button></a>
-    <button class="btn btn-outline-primary pull-sm-right" type="submit">Mes Actualités</button>
-  </nav>
+  <?php include("navbar.html"); ?>
 
   <div class="jumbotron">
     <h2 class="display-4">Mes options</h1>
+    <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <form action="changePWD.php" method="post">
+        <?php  if(isset($_GET["error"])){
+            switch($_GET["error"]){
+              case "oldpwd" : echo '<div class="alert alert-danger" role="alert">
+                          <strong>Attention!</strong> Veuillez revoir votre ancien mot de passe
+                          </div>';
+                            break;
+              case "newpwd" : echo '<div class="alert alert-danger" role="alert">
+                          <strong>Attention!</strong> Les nouveaux mots de passe ne correspondent pas
+                          </div>';
+                            break;
+              case "success" : echo '<div class="alert alert-success" role="alert">
+                          Votre mot de passe a été mis à jour avec succès !
+                          </div>';
+                            break;
+            }
+          } ?>
+          <div class="form-group">
+            <label for="old_pwd">Ancien mot de passe</label>
+            <input type="password" name="pwd" class="form-control" id="oldpwd">
+          </div>
+          <div class="form-group">
+            <label for="new_pwd">Nouveau mot de passe</label>
+            <input type="password" name="new_pwd" class="form-control" id="pwd">
+          </div>
+          <div class="form-group">
+            <label for="new_pwdBIS">Confirmer nouveau mot de passe</label>
+            <input type="password" name="new_pwdBIS" class="form-control" id="pwdBIS">
+          </div>
+          <input type="submit" class="btn btn-primary" value="Valider">
+        </form>';
+      </div>
+      <div class="col-lg-6">
+        <a href="../controler/ctrl-chose.php"><button class="btn btn-primary pull-sm-right" type="submit">Modifier préférences de catégories</button></a>
+      </div>
+    </div>
+    </div>
   </div>
 </body>
 </html>

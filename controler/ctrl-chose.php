@@ -1,52 +1,37 @@
 <?php
 require_once("../model/Categorie.class.php");
+require_once("../model/DAO.class.php");
 session_start();
 
-$bd = array(
-  array("Mode","Actu de la mode","mode.jpeg"),
-  array("Finance","Actu des finances","finance.jpeg"),
-  array("Science","Actu des sciences","science.jpeg"),
-  array("Gaming","Actu du gaming","gaming.jpeg")
-);
+if( ! isset($_SESSION["id"])){
+  header("Location: ../controler/ctrl-login.php");
+}
+
+$categories = $dao->getCategories();
 
 if( ! isset($choix)){
-  $choix = [
-    'Finance' => 0,
-    'Mode' => 0,
-    'Science' => 0,
-    'Gaming' => 0
-  ];
+  // Initialisation des choix
+  foreach ($categories as $key => $value) {
+    $choix[$value->name] = 0;
+  }
 }
-
-
 // GESTION DE L'UI
-if(isset($_GET['Finance']) || isset($_GET['Mode']) || isset($_GET['Science']) || isset($_GET['Gaming'])){
-    if(isset($_GET['Finance']) && $_GET['Finance']==1){
-      $choix['Finance'] = ($choix['Finance']==0 && ! isset($_GET['Financebis'])) ? 1 : 0;
-    }
-    if(isset($_GET['Mode']) && $_GET['Mode']==1){
-      $choix['Mode'] = ($choix['Mode']==0 && ! isset($_GET['Modebis'])) ? 1 : 0;
-    }
-    if(isset($_GET['Science']) && $_GET['Science']==1){
-      $choix['Science'] = ($choix['Science']==0 && ! isset($_GET['Sciencebis'])) ? 1 : 0;
-    }
-    if(isset($_GET['Gaming']) && $_GET['Gaming']==1){
-      $choix['Gaming'] = ($choix['Gaming']==0 && ! isset($_GET['Gamingbis'])) ? 1 : 0;
+foreach ($choix as $key => $value) {
+    if(isset($_GET[$key]) && $_GET[$key]==1){
+      $choix[$key] = ($choix[$key]==0 && ! isset($_GET[$key.'bis'])) ? 1 : 0;
     }
 }
-function createURL($tab){
+
+// Utilitaires pour la vue
+function createURL($choix){ // créér une queryString en fonction des choix
   $queryString = "";
-  foreach($tab as $key => $value){
+  foreach($choix as $key => $value){
     if($value==1){
       $queryString.= (strlen($queryString)==1) ? "" : "&";
       $queryString.=$key."=1";
     }
   }
   return $queryString;
-}
-
-foreach($bd as $key => $value){
-  $categories[] = new Categorie($value);
 }
 
 include_once("../view/chose.html");

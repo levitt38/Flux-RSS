@@ -1,5 +1,5 @@
 <?php
 
-header("Location: ../controler/ctrl-login.php");
+header("Location: controler/ctrl-login.php");
 
 ?>

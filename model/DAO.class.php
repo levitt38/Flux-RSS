@@ -1,5 +1,6 @@
 <?php
 require_once('../model/Nouvelle.class.php');
+require_once('../model/Categorie.class.php');
 require_once('../model/RSS.class.php');
 	class DAO {
          private $db; // L'objet de la base de donnée
@@ -17,7 +18,7 @@ require_once('../model/RSS.class.php');
         //////////////////////////////////////////////////////////
         // Methodes CRUD sur RSS
         //////////////////////////////////////////////////////////
-	 
+
 	 function getRSSs(){
 		$req = "select * from rss";
 		$sth = $this->db->prepare($req);
@@ -85,7 +86,7 @@ require_once('../model/RSS.class.php');
         // Met à jour un flux
         function updateRSS(RSS $rss) {
 	  // Met tout à jour
-		var_dump($rss);
+		//var_dump($rss);
 		$titre = ($this->db->quote($rss->titre()));
 		$q = "UPDATE RSS SET titre=:titre, date=:date WHERE url=:url";
 		$s = $this->db->prepare($q);
@@ -230,6 +231,20 @@ require_once('../model/RSS.class.php');
 		return $result;
 	}
 
+	function getUserByID($id){
+		$req = "select * from utilisateur where id = :id";
+		$query = $this->db->prepare($req);
+		$query->execute(array($id));
+		if($query==false){
+			return false;
+		}
+		$result = $query->fetchAll();
+		if(count($result) < 1){
+			return 0;
+		}
+		return $result;
+	}
+
 	function insertNewUser($login,$pwd){
 		$req = "insert INTO utilisateur(login,mp) values (:login,:pwd)";
 		$query = $this->db->prepare($req);
@@ -237,20 +252,34 @@ require_once('../model/RSS.class.php');
 		$result = ($query->rowCount()<1) ? false : true;
 		return $result;
 	}
+	function updateUserPWD($login,$pwd){
+		$req = "update utilisateur set mp= :pwd where id= :login";
+		$query = $this->db->prepare($req);
+		$query->execute(array($pwd,$login));
+		$result = ($query->rowCount()<1) ? false : true;
+		return $result;
+	}
 
 	function insertPreferencesUser($tab,$login){
 		$comte = 0;
 		foreach($tab as $key => $value){
-			$req = "insert INTO interets(userID,categorieID) values (:userid,:catid)";
-			$query = $this->db->prepare($req);
-			$query->execute(array($login,$value));
-			$comte += ($query->rowCount()<1) ? 1 : 0;
+			if($value==1){
+				$req = "insert INTO interets(userID,categorieID) values (:userid,:catid)";
+				$query = $this->db->prepare($req);
+				$query->execute(array($login,$key));
+				$comte += ($query->rowCount()<1) ? 1 : 0;
+			}
 		}
 			return ($comte < count($tab));
 	}
+	function deletePreferencesUser($login){
+			$req = "delete from interets where userID=:userid";
+			$query = $this->db->prepare($req);
+			$query->execute(array($login));
+	}
 
 	function getPreferencesUser($i){
-			$req = "select c.* from categorie c,interets i where i.userID=:userid and i.categorieID=c.name";
+			$req = "select c.* from categorie c,interets i where i.userID= :userid and i.categorieID=c.name";
 			$query = $this->db->prepare($req);
 			$query->execute(array($i));
 			$a = $query->fetchAll();
@@ -281,7 +310,7 @@ require_once('../model/RSS.class.php');
 			$id = $this->getIDfromRSSURL($rssurl);
 			$req = "insert INTO fluxcategorie values ('$cat->name',$id)";
 			$a = $this->db->exec($req);
-			var_dump($a);
+			//var_dump($a);
 			return $a;
 
 		}

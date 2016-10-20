@@ -31,8 +31,8 @@
             <p class="etat">Veuillez vous connecter</p>
             <form action="login.php" method="post">
               <div class="form-group">
-                <label for="Login_user">Adresse email</label>
-                <input type="text" name="Login_user" class="form-control" id="Login_user" placeholder="Entrer email">
+                <label for="Login_user">Nom d\'utilisateur</label>
+                <input type="text" name="Login_user" class="form-control" id="Login_user" placeholder="Entrer votre nom">
               </div>
               <div class="form-group">
                 <label for="Login_pwd">Mot de passe</label>
@@ -40,15 +40,15 @@
               </div>
               <a href="ctrl-login.php?sign=1">Créer un compte</a><br><br>
               <input type="hidden" name="etat" value="login">
-              <input type="submit" class="btn btn-primary" value="Connection">
+              <input type="submit" class="btn btn-primary" value="Connexion">
             </form>';
       } else {
       echo '<hr class="m-y-2">
             <p class="etat">Créer votre compte</p>
             <form action="login.php" method="post">
               <div class="form-group">
-                <label for="Sign_user">Adresse email</label>
-                <input type="text" name="Sign_user" class="form-control" id="Sign_user" placeholder="Entrer email">
+                <label for="Sign_user">Nom d\'utilisateur</label>
+                <input type="text" name="Sign_user" class="form-control" id="Sign_user" placeholder="Entrer votre nom">
               </div>
               <div class="form-group">
                 <label for="Sign_pwd">Mot de passe</label>
